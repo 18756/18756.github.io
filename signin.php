@@ -1,5 +1,7 @@
 <?php 
+require_once "controlers/filter.php";
 require_once "controlers/singin_controler.php";
+
 if($error){?>
 
 	<div class="errors">Wrong email or password</div>

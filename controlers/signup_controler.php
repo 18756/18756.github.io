@@ -6,21 +6,14 @@ if(isset($_COOKIE['id']))
 	header("Location: index.php");
 }
 
-function my_filter($str){
-    global $pdo;
-    $str = trim($str);
-    $str = strip_tags($str);
-    $str = htmlspecialchars($str);
-    $str = $pdo->quote($str);
-    return $str;
-}
 
 $errors = [];
 
 if(isset($_REQUEST['signup']))
 {
-    $nickname = my_filter($_REQUEST['nickname']);
-    $email = my_filter($_REQUEST['email']);
+    $nickname = $_REQUEST['nickname'];
+    var_dump($nickname);
+    $email = $_REQUEST['email'];
     $password = $_REQUEST['password'];
     $confirm_password = $_REQUEST['confirm_password'];
     
@@ -70,6 +63,7 @@ if(isset($_REQUEST['signup']))
     	    $password = password_hash($password, PASSWORD_DEFAULT);
     	    $secret_key = md5($nickname.rand(0, 10).time());
     	    $sql = "INSERT INTO `users` (`nickname`, `email`, `password`, `secret_key`) VALUES ($nickname, $email, '$password', '$secret_key')";
+            
     	    $pdo->query($sql);
     	    setcookie("signin", "1", time()+10000, '/');
 
@@ -77,9 +71,10 @@ if(isset($_REQUEST['signup']))
     	    $id = $pdo->query($sql);
             $id = $id->fetch()[0];
     	    setcookie("id", $id, time()+10000, '/');
-            setcookie("key", $secret_key, time()+10000, '/');            
+            setcookie("key", $secret_key, time()+10000, '/'); 
+            setcookie("name", $nickname, time()+10000, '/');           
             header("Location: index.php");
-            
+                    
         }
     }
 }

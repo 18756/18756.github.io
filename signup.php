@@ -1,4 +1,5 @@
 <?php 
+require_once "controlers/filter.php";
 require_once "controlers/signup_controler.php";
 foreach ($errors as $error) {?>
 	<div class="error"><?=$error;?></div>
